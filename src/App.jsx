@@ -13,7 +13,7 @@ function App() {
     console.log("...handleConfig");
   };
   return (
-    <>
+    <div className=" dark:text-blue-500 dark:bg-white">
       <Theme />
       <Controls
         status={status}
@@ -22,7 +22,7 @@ function App() {
       />
       <GPS />
       <Cam />
-    </>
+    </div>
   );
 }
 
