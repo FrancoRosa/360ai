@@ -1,4 +1,4 @@
-const Select = ({ label }, props) => {
+const Select = ({ label, ...props }) => {
   return (
     <div className="flex">
       <label>{label}</label>

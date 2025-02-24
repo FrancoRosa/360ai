@@ -1,13 +1,11 @@
-const Slider = ({ label }, props) => {
+const Slider = ({ label, ...props }) => {
   return (
     <div className="flex flex-col">
-      <label htmlFor="default-range">{label}</label>
+      <p className="text-xs text-center">{label}</p>
       <input
-        id="default-range"
         type="range"
         {...props}
-        // onChange={() => console.log("al")}
-        // className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700"
       />
     </div>
   );

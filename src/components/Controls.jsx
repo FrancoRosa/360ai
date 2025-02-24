@@ -6,8 +6,8 @@ const Controls = ({ status, handleConfig, handleReports, handleStatus }) => {
       <p onClick={handleStatus} className="m-2 capitalize">
         {status}
       </p>
-      <Button onClick={handleReports}>Reports</Button>
-      <Button onClick={handleConfig}>Config</Button>
+      <Button onClick={handleReports} label={"Reports"} />
+      <Button onClick={handleConfig} label={"Config"} />
     </div>
   );
 };
