@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as cocossd from "@tensorflow-models/coco-ssd";
 import Webcam from "react-webcam";
-import { drawRect } from "./js/rectangles";
+import { drawRect } from "../js/rectangles";
 
 const Cam = () => {
   const [coco, setCoco] = useState(false);
