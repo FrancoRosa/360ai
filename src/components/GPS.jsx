@@ -23,7 +23,7 @@ const GPS = () => {
         bearing: s.bearing + Math.floor(Math.random() * 10 * plusOrMinus()),
         speed: s.speed + Math.floor(Math.random() * 10 * plusOrMinus()),
       }));
-    }, 1000);
+    }, 3000);
     return () => clearInterval(interval1);
   }, []);
 

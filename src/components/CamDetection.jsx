@@ -6,7 +6,7 @@ import * as cocossd from "@tensorflow-models/coco-ssd";
 import Webcam from "react-webcam";
 import { drawRect } from "../js/rectangles";
 
-const Cam = () => {
+const Cam = ({ status }) => {
   const [coco, setCoco] = useState(false);
   const [devices, setDevices] = useState([]);
   const [deviceId, setDeviceId] = useState();
@@ -61,7 +61,7 @@ const Cam = () => {
     if (coco) {
       detectInterval = setInterval(() => {
         detect(coco);
-      }, 300);
+      }, 1000);
     } else {
       clearInterval(detectInterval);
     }
@@ -81,6 +81,19 @@ const Cam = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const colorByStatus = (status) => {
+    switch (status) {
+      case "safe":
+        return "border-green-500";
+      case "warning":
+        return "border-yellow-500";
+      case "danger":
+        return "border-red-500";
+      default:
+        return "";
+    }
+  };
 
   return (
     <>
@@ -102,11 +115,9 @@ const Cam = () => {
         </select>
       </div>
       <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          width: "100vw",
-        }}
+        className={`flex justify-center w-full border-4 border-solid ${colorByStatus(
+          status
+        )}`}
       >
         <div style={style}>
           <Webcam
