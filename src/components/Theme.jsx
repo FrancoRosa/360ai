@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Button from "./elements/Button";
 
 const Theme = () => {
   const [theme, setTheme] = useState(localStorage.theme || "light");
@@ -19,8 +20,8 @@ const Theme = () => {
 
   return (
     <div className="flex gap-2">
-      <button onClick={handleLight}>Light</button>
-      <button onClick={handleDark}>Dark</button>
+      <Button onClick={handleLight}>Light</Button>
+      <Button onClick={handleDark}>Dark</Button>
     </div>
   );
 };

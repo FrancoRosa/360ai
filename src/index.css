@@ -1,4 +1,2 @@
 @import "tailwindcss";
-body {
-  @apply bg-blue-500 text-white font-mono;
-}
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));

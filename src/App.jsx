@@ -13,7 +13,7 @@ function App() {
     console.log("...handleConfig");
   };
   return (
-    <div className=" dark:text-blue-500 dark:bg-white">
+    <div className="text-slate-900 bg-slate-400 dark:text-slate-400 dark:bg-slate-900">
       <Theme />
       <Controls
         status={status}
