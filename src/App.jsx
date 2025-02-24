@@ -14,14 +14,16 @@ function App() {
   };
   return (
     <div className="text-slate-900 bg-slate-400 dark:text-slate-400 dark:bg-slate-900">
-      <Theme />
-      <Controls
-        status={status}
-        handleConfig={handleConfig}
-        handleReports={handleReports}
-      />
-      <GPS />
+      <div className="flex justify-around ">
+        <Controls
+          status={status}
+          handleConfig={handleConfig}
+          handleReports={handleReports}
+        />
+        <GPS />
+      </div>
       <Cam />
+      <Theme />
     </div>
   );
 }

@@ -84,11 +84,11 @@ const Cam = () => {
 
   return (
     <>
-      <div style={{ textAlign: "center" }}>
+      <div className="text-center mt-4 ">
         <select
           onChange={handleChange}
           value={deviceId}
-          style={{ width: "8em" }}
+          className="w-50 border-slite-600 border-solid border-2 rounded-md m-2"
         >
           {devices.map((d, i) => (
             <option
