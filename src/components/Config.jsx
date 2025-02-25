@@ -42,7 +42,7 @@ const Config = ({
         />
         <Slider
           label="x2:"
-          min={resolution.width / 2}
+          min={resolution.width / 2 + 1}
           max={resolution.width}
           step={1}
           value={lines.vt2}
@@ -75,7 +75,7 @@ const Config = ({
         />
         <Slider
           label="x2:"
-          min={resolution.width / 2}
+          min={resolution.width / 2 + 1}
           max={resolution.width}
           step={1}
           value={lines.vb2}
