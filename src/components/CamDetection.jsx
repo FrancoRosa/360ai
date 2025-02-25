@@ -5,8 +5,21 @@ import * as tf from "@tensorflow/tfjs";
 import * as cocossd from "@tensorflow-models/coco-ssd";
 import Webcam from "react-webcam";
 import { drawRect } from "../js/rectangles";
+import Lines from "./Lines";
 
 const Cam = ({ status }) => {
+  //lines: 4x vertical
+  //       2x horizontal
+
+  const [lines, setLines] = useState({
+    h1: 40,
+    vl1: 30,
+    vr1: 30,
+    h2: 40,
+    vl2: 30,
+    vr2: 30,
+  });
+
   const [coco, setCoco] = useState(false);
   const [devices, setDevices] = useState([]);
   const [deviceId, setDeviceId] = useState();
@@ -129,6 +142,7 @@ const Cam = ({ status }) => {
             }}
           />
           <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
+          <Lines resolution={resolution} />
         </div>
       </div>
     </>
