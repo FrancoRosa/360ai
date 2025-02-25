@@ -3,11 +3,17 @@ import Button from "./elements/Button";
 import Select from "./elements/Select";
 import Slider from "./elements/Slider";
 
-const Config = ({ config, setConfig, handleBack }) => {
+const Config = ({
+  resolution,
+  config,
+  setConfig,
+  handleBack,
+  lines,
+  setLines,
+}) => {
   const [beep, setBeep] = useState(true);
   const [od, setOd] = useState(true);
-  const [upTh, setUpTh] = useState(20);
-  const [dnTh, setDnTh] = useState(5);
+
   return (
     <div className="flex justify-between w-full">
       <div className="flex items-center gap-4">
@@ -23,31 +29,72 @@ const Config = ({ config, setConfig, handleBack }) => {
         />
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex flex-col items-center gap-2">
         <Slider
-          label="Top Threshold"
+          label="x1:"
           min={0}
-          max={30}
+          max={resolution.width / 2}
           step={1}
-          value={upTh}
+          value={lines.vt1}
           onChange={(e) => {
-            setUpTh(e.target.value);
-            console.log(e.target.value);
+            setLines((l) => ({ ...l, vt1: parseInt(e.target.value) }));
           }}
         />
         <Slider
-          label="Bottom Threshold"
-          min={0}
-          max={30}
+          label="x2:"
+          min={resolution.width / 2}
+          max={resolution.width}
           step={1}
-          value={dnTh}
+          value={lines.vt2}
           onChange={(e) => {
-            setDnTh(e.target.value);
-            console.log(e.target.value);
+            setLines((l) => ({ ...l, vt2: parseInt(e.target.value) }));
           }}
         />
-        <Button onClick={handleBack} label="Return" />
+        <Slider
+          label="y:"
+          min={0}
+          max={resolution.height / 2}
+          step={1}
+          value={lines.ht}
+          onChange={(e) => {
+            setLines((l) => ({ ...l, ht: parseInt(e.target.value) }));
+          }}
+        />
       </div>
+
+      <div className="flex flex-col items-center gap-2">
+        <Slider
+          label="x1:"
+          min={0}
+          max={resolution.width / 2}
+          step={1}
+          value={lines.vb1}
+          onChange={(e) => {
+            setLines((l) => ({ ...l, vb1: parseInt(e.target.value) }));
+          }}
+        />
+        <Slider
+          label="x2:"
+          min={resolution.width / 2}
+          max={resolution.width}
+          step={1}
+          value={lines.vb2}
+          onChange={(e) => {
+            setLines((l) => ({ ...l, vb2: parseInt(e.target.value) }));
+          }}
+        />
+        <Slider
+          label="y:"
+          min={resolution.height / 2}
+          max={resolution.height}
+          step={1}
+          value={lines.hb}
+          onChange={(e) => {
+            setLines((l) => ({ ...l, hb: parseInt(e.target.value) }));
+          }}
+        />
+      </div>
+      <Button onClick={handleBack} label="Return" />
     </div>
   );
 };

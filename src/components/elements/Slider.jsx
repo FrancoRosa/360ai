@@ -1,6 +1,6 @@
 const Slider = ({ label, ...props }) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex">
       <p className="text-xs text-center">{label}</p>
       <input
         type="range"

@@ -7,10 +7,21 @@ import Button from "./components/elements/Button";
 import Config from "./components/Config";
 
 function App() {
+  const resolution = {
+    width: 640,
+    height: 360,
+  };
   const [status, setStatus] = useState("safe");
   const [page, setPage] = useState("main"); //main, config, reports
   const [config, setConfig] = useState({}); //main, config, reports
-
+  const [lines, setLines] = useState({
+    vt1: 20,
+    vt2: 30,
+    ht: 40,
+    vb1: 50,
+    vb2: 60,
+    hb: 70,
+  });
   const handleReports = () => {
     setPage("reports");
   };
@@ -56,9 +67,12 @@ function App() {
         )}
         {page === "config" && (
           <Config
+            resolution={resolution}
             config={config}
             setConfig={setConfig}
             handleBack={handleBack}
+            lines={lines}
+            setLines={setLines}
           />
         )}
         {page === "reports" && (
@@ -67,7 +81,7 @@ function App() {
           </>
         )}
       </div>
-      <Cam status={status} />
+      <Cam resolution={resolution} status={status} lines={lines} />
       <Theme />
     </div>
   );

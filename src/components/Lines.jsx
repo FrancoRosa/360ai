@@ -1,23 +1,25 @@
-const Line = ({ resolution, pos, vertical = true }) => {
-  return (
-    <div
-      className={`absolute bg-lime-400 border-solid border-1 border-white z-10`}
-      style={{
-        top: vertical ? 0 : pos,
-        width: vertical ? "5px" : resolution.width,
-        left: vertical ? pos : 0,
-        height: vertical ? resolution.height : "5px",
-      }}
-    ></div>
-  );
-};
-const Lines = ({ resolution }) => {
+import Line from "./Line";
+
+const Lines = ({
+  resolution,
+  lines = {
+    vt1: 20,
+    vt2: 30,
+    ht: 40,
+    vb1: 50,
+    vb2: 60,
+    hb: 70,
+  },
+}) => {
+  const { vt1, vt2, ht, vb1, vb2, hb } = lines;
   return (
     <>
-      <Line resolution={resolution} pos={10} vertical={true} />
-      <Line resolution={resolution} pos={60} vertical={true} />
-      <Line resolution={resolution} pos={100} vertical={false} />
-      <Line resolution={resolution} pos={150} vertical={false} />
+      <Line resolution={resolution} pos={vt1} vertical={true} top={true} />
+      <Line resolution={resolution} pos={vt2} vertical={true} top={true} />
+      <Line resolution={resolution} pos={ht} vertical={false} top={true} />
+      <Line resolution={resolution} pos={vb1} vertical={true} top={false} />
+      <Line resolution={resolution} pos={vb2} vertical={true} top={false} />
+      <Line resolution={resolution} pos={hb} vertical={false} top={false} />
     </>
   );
 };
