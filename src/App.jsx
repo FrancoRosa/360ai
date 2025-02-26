@@ -6,6 +6,7 @@ import Theme from "./components/Theme";
 import Button from "./components/elements/Button";
 import Config from "./components/Config";
 import useLocal from "./js/storage";
+import Navigation from "./components/Navigation";
 
 function App() {
   const resolution = {
@@ -25,39 +26,23 @@ function App() {
     vb2: (3 * resolution.width) / 4,
     hb: (3 * resolution.height) / 4,
   });
-  const handleReports = () => {
-    setPage("reports");
-  };
-  const handleConfig = () => {
-    setPage("config");
-  };
-  const handleBack = () => {
-    setPage("main");
-  };
 
   return (
-    <div className="text-slate-900 bg-slate-400 dark:text-lime-400 dark:bg-slate-900 text-sm">
-      <div className="flex justify-around ">
+    <div className=" h-screen text-slate-900 bg-slate-400 dark:text-lime-400 dark:bg-slate-900 text-sm flex flex-col justify-around items-center">
+      <div className="flex justify-around">
         {page === "main" && (
           <>
-            <Controls {...{ status, handleConfig, handleReports }} />
-            <GPS {...{ status }} />
+            <Controls />
+            <GPS />
           </>
         )}
         {page === "config" && (
-          <Config
-            {...{ resolution, config, setConfig, handleBack, lines, setLines }}
-          />
-        )}
-        {page === "reports" && (
-          <>
-            <Button onClick={handleBack} label="Return" />
-          </>
+          <Config {...{ resolution, config, setConfig, lines, setLines }} />
         )}
       </div>
 
       {page !== "reports" && <Cam {...{ resolution, lines, page, config }} />}
-      <Theme />
+      <Navigation {...{ page, setPage }} />
     </div>
   );
 }

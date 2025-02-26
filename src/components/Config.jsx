@@ -2,17 +2,10 @@ import Button from "./elements/Button";
 import Select from "./elements/Select";
 import Slider from "./elements/Slider";
 
-const Config = ({
-  resolution,
-  config,
-  setConfig,
-  handleBack,
-  lines,
-  setLines,
-}) => {
+const Config = ({ resolution, config, setConfig, lines, setLines }) => {
   return (
-    <div className="flex justify-between w-full p-3">
-      <div className="flex items-center gap-4">
+    <div className="flex justify-between w-full p-3 gap-4">
+      <div className="flex flex-col items-start gap-2">
         <Select
           label="Beep:"
           value={config.beep}
@@ -29,7 +22,7 @@ const Config = ({
         />
       </div>
 
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center gap-1">
         <Slider
           label="x1:"
           min={0}
@@ -62,7 +55,7 @@ const Config = ({
         />
       </div>
 
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center gap-1">
         <Slider
           label="x1:"
           min={0}
@@ -94,7 +87,6 @@ const Config = ({
           }}
         />
       </div>
-      <Button onClick={handleBack} label="Return" />
     </div>
   );
 };

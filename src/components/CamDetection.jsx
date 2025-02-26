@@ -117,21 +117,21 @@ const Cam = ({ resolution, lines, config, page }) => {
             </option>
           ))}
         </select>
-      </div>
 
-      <div style={style}>
-        <Webcam
-          ref={webcamRef}
-          style={{ position: "absolute", top: 0 }}
-          videoConstraints={{
-            deviceId,
-            ...resolution,
-          }}
-        />
-        <ROI resolution={resolution} top={true} warning={status[0]} />
-        <ROI resolution={resolution} top={false} warning={status[1]} />
-        <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
-        {page === "config" && <Lines resolution={resolution} lines={lines} />}
+        <div style={style}>
+          <Webcam
+            ref={webcamRef}
+            style={{ position: "absolute", top: 0 }}
+            videoConstraints={{
+              deviceId,
+              ...resolution,
+            }}
+          />
+          <ROI resolution={resolution} top={true} warning={status[0]} />
+          <ROI resolution={resolution} top={false} warning={status[1]} />
+          <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
+          {page === "config" && <Lines resolution={resolution} lines={lines} />}
+        </div>
       </div>
     </>
   );
