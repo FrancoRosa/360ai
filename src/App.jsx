@@ -12,7 +12,6 @@ function App() {
     width: 640,
     height: 360,
   };
-  const [status, setStatus] = useState([false, false]);
   const [page, setPage] = useState("main"); //main, config, reports
   const [config, setConfig] = useLocal("config", {
     beep: true,
@@ -38,7 +37,6 @@ function App() {
 
   return (
     <div className="text-slate-900 bg-slate-400 dark:text-lime-400 dark:bg-slate-900 text-sm">
-      <p className="m-2 text-sm ">{JSON.stringify(status)}</p>
       <div className="flex justify-around ">
         {page === "main" && (
           <>
@@ -53,12 +51,12 @@ function App() {
         )}
         {page === "reports" && (
           <>
-            <Button onClick={handleBack}>Return</Button>
+            <Button onClick={handleBack} label="Return" />
           </>
         )}
       </div>
 
-      <Cam {...{ resolution, setStatus, lines, page, config }} />
+      {page !== "reports" && <Cam {...{ resolution, lines, page, config }} />}
       <Theme />
     </div>
   );
