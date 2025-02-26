@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 
 // eslint-disable-next-line no-unused-vars
 import * as tf from "@tensorflow/tfjs";
@@ -86,6 +87,7 @@ const Cam = ({ resolution, lines, config, page }) => {
     return () => {
       clearInterval(detectInterval);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coco, config, lines]);
 
   useEffect(() => {
@@ -108,11 +110,7 @@ const Cam = ({ resolution, lines, config, page }) => {
           className="w-50 border-slite-600 border-solid border-2 rounded-md m-2"
         >
           {devices.map((d, i) => (
-            <option
-              key={i}
-              // selected={deviceId === d.deviceId}
-              value={d.deviceId}
-            >
+            <option key={i} value={d.deviceId}>
               {`${i + 1}-${d.label.split("(")[0]}`}
             </option>
           ))}
@@ -135,6 +133,16 @@ const Cam = ({ resolution, lines, config, page }) => {
       </div>
     </>
   );
+};
+
+Cam.propTypes = {
+  resolution: PropTypes.shape({
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+  }).isRequired,
+  lines: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
+  page: PropTypes.string.isRequired,
 };
 
 export default Cam;

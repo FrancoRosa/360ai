@@ -2,8 +2,6 @@ import { useState } from "react";
 import Cam from "./components/CamDetection";
 import Controls from "./components/Controls";
 import GPS from "./components/GPS";
-import Theme from "./components/Theme";
-import Button from "./components/elements/Button";
 import Config from "./components/Config";
 import useLocal from "./js/storage";
 import Navigation from "./components/Navigation";

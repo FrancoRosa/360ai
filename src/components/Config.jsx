@@ -1,6 +1,6 @@
-import Button from "./elements/Button";
 import Select from "./elements/Select";
 import Slider from "./elements/Slider";
+import PropTypes from "prop-types";
 
 const Config = ({ resolution, config, setConfig, lines, setLines }) => {
   return (
@@ -90,4 +90,26 @@ const Config = ({ resolution, config, setConfig, lines, setLines }) => {
     </div>
   );
 };
+
+Config.propTypes = {
+  resolution: PropTypes.shape({
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+  }).isRequired,
+  config: PropTypes.shape({
+    beep: PropTypes.bool.isRequired,
+    detection: PropTypes.bool.isRequired,
+  }).isRequired,
+  setConfig: PropTypes.func.isRequired,
+  lines: PropTypes.shape({
+    vt1: PropTypes.number.isRequired,
+    vt2: PropTypes.number.isRequired,
+    ht: PropTypes.number.isRequired,
+    vb1: PropTypes.number.isRequired,
+    vb2: PropTypes.number.isRequired,
+    hb: PropTypes.number.isRequired,
+  }).isRequired,
+  setLines: PropTypes.func.isRequired,
+};
+
 export default Config;

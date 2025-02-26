@@ -1,5 +1,6 @@
 import Button from "./elements/Button";
 import Theme from "./Theme";
+import PropTypes from "prop-types";
 
 const Navigation = ({ page, setPage }) => {
   return (
@@ -18,4 +19,10 @@ const Navigation = ({ page, setPage }) => {
     </div>
   );
 };
+
+Navigation.propTypes = {
+  page: PropTypes.string.isRequired,
+  setPage: PropTypes.func.isRequired,
+};
+
 export default Navigation;
