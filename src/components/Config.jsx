@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Button from "./elements/Button";
 import Select from "./elements/Select";
 import Slider from "./elements/Slider";
@@ -11,21 +10,22 @@ const Config = ({
   lines,
   setLines,
 }) => {
-  const [beep, setBeep] = useState(true);
-  const [od, setOd] = useState(true);
-
   return (
-    <div className="flex justify-between w-full">
+    <div className="flex justify-between w-full p-3">
       <div className="flex items-center gap-4">
         <Select
           label="Beep:"
-          value={beep}
-          onChange={(e) => setBeep(e.target.value)}
+          value={config.beep}
+          onChange={(e) =>
+            setConfig((c) => ({ ...c, beep: e.target.value === "true" }))
+          }
         />
         <Select
           label="Detect:"
-          value={od}
-          onChange={(e) => setOd(e.target.value)}
+          value={config.detection}
+          onChange={(e) =>
+            setConfig((c) => ({ ...c, detection: e.target.value === "true" }))
+          }
         />
       </div>
 

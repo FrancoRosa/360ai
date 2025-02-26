@@ -5,7 +5,7 @@ const Slider = ({ label, ...props }) => {
       <input
         type="range"
         {...props}
-        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700"
+        className="accent-slate-500 dark:accent-lime-600"
       />
     </div>
   );

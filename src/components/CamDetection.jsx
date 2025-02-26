@@ -6,8 +6,9 @@ import * as cocossd from "@tensorflow-models/coco-ssd";
 import Webcam from "react-webcam";
 import { drawRect } from "../js/rectangles";
 import Lines from "./Lines";
+import beep from "../js/beep";
 
-const Cam = ({ resolution, status, lines }) => {
+const Cam = ({ resolution, status, lines, config, page }) => {
   const [coco, setCoco] = useState(false);
   const [devices, setDevices] = useState([]);
   const [deviceId, setDeviceId] = useState();
@@ -25,28 +26,6 @@ const Cam = ({ resolution, status, lines }) => {
     setDeviceId(e.target.value);
   };
 
-  const detect = async (net) => {
-    if (
-      typeof webcamRef.current !== "undefined" &&
-      webcamRef.current !== null &&
-      webcamRef.current.video.readyState === 4
-    ) {
-      const {
-        video,
-        video: { videoWidth, videoHeight },
-      } = webcamRef.current;
-      webcamRef.current.video.width = videoWidth;
-      webcamRef.current.video.height = videoHeight;
-
-      canvasRef.current.width = videoWidth;
-      canvasRef.current.height = videoHeight;
-
-      const obj = await net.detect(video);
-      const ctx = canvasRef.current.getContext("2d");
-      drawRect(obj, ctx);
-    }
-  };
-
   useEffect(() => {
     cocossd.load().then((res) => {
       console.log("... coco loaded");
@@ -55,6 +34,38 @@ const Cam = ({ resolution, status, lines }) => {
   }, []);
 
   useEffect(() => {
+    const detect = async (net) => {
+      if (
+        typeof webcamRef.current !== "undefined" &&
+        webcamRef.current !== null &&
+        webcamRef.current.video.readyState === 4
+      ) {
+        const {
+          video,
+          video: { videoWidth, videoHeight },
+        } = webcamRef.current;
+        webcamRef.current.video.width = videoWidth;
+        webcamRef.current.video.height = videoHeight;
+
+        canvasRef.current.width = videoWidth;
+        canvasRef.current.height = videoHeight;
+        if (config.detection) {
+          const obj = await net.detect(video);
+          if (obj.map((o) => o.class).some((e) => e === "person")) {
+            if (config.beep) {
+              beep();
+            }
+            const ctx = canvasRef.current.getContext("2d");
+            drawRect(obj, ctx);
+          }
+        } else {
+          const obj = [];
+          const ctx = canvasRef.current.getContext("2d");
+          drawRect(obj, ctx);
+        }
+      }
+    };
+
     let detectInterval;
     if (coco) {
       detectInterval = setInterval(() => {
@@ -67,7 +78,7 @@ const Cam = ({ resolution, status, lines }) => {
     return () => {
       clearInterval(detectInterval);
     };
-  }, [coco]);
+  }, [coco, config]);
 
   useEffect(() => {
     navigator.mediaDevices.enumerateDevices().then((res) => {
@@ -118,16 +129,16 @@ const Cam = ({ resolution, status, lines }) => {
         )}`}
       >
         <div style={style}>
-          {/* <Webcam
+          <Webcam
             ref={webcamRef}
             style={{ position: "absolute", top: 0 }}
             videoConstraints={{
               deviceId,
               ...resolution,
             }}
-          /> */}
+          />
           <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
-          <Lines resolution={resolution} lines={lines} />
+          {page === "config" && <Lines resolution={resolution} lines={lines} />}
         </div>
       </div>
     </>

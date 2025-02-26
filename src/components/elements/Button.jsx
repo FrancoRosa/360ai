@@ -2,7 +2,7 @@ const Button = ({ label, ...props }) => {
   return (
     <button
       {...props}
-      className="m-2 px-4 py-2 bg-slate-300 text-slate-800 dark:bg-slate-800 dark:text-slate-400 rounded-md"
+      className="my-auto px-3 text-sm py-1 bg-slate-300 text-slate-800 dark:bg-lime-800 dark:text-lime-300 rounded-md"
     >
       {label}
     </button>

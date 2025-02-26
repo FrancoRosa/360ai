@@ -19,9 +19,9 @@ const Theme = () => {
   }, [theme]);
 
   return (
-    <div className="flex  w-full justify-end">
-      <Button onClick={handleLight}>Light</Button>
-      <Button onClick={handleDark}>Dark</Button>
+    <div className="flex  w-full justify-end gap-1 p-2">
+      <Button label="Light" onClick={handleLight} />
+      <Button label="Dark" onClick={handleDark} />
     </div>
   );
 };

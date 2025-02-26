@@ -5,6 +5,7 @@ import GPS from "./components/GPS";
 import Theme from "./components/Theme";
 import Button from "./components/elements/Button";
 import Config from "./components/Config";
+import useLocal from "./js/storage";
 
 function App() {
   const resolution = {
@@ -13,14 +14,17 @@ function App() {
   };
   const [status, setStatus] = useState("safe");
   const [page, setPage] = useState("main"); //main, config, reports
-  const [config, setConfig] = useState({}); //main, config, reports
-  const [lines, setLines] = useState({
-    vt1: 20,
-    vt2: 30,
-    ht: 40,
-    vb1: 50,
-    vb2: 60,
-    hb: 70,
+  const [config, setConfig] = useLocal("config", {
+    beep: true,
+    detection: true,
+  });
+  const [lines, setLines] = useLocal("lines", {
+    vt1: resolution.width / 4,
+    vt2: (3 * resolution.width) / 4,
+    ht: resolution.height / 4,
+    vb1: resolution.width / 4,
+    vb2: (3 * resolution.width) / 4,
+    hb: (3 * resolution.height) / 4,
   });
   const handleReports = () => {
     setPage("reports");
@@ -52,27 +56,19 @@ function App() {
   };
 
   return (
-    <div className="text-slate-900 bg-slate-400 dark:text-slate-400 dark:bg-slate-900">
+    <div className="text-slate-900 bg-slate-400 dark:text-lime-400 dark:bg-slate-900 text-sm">
       <div className="flex justify-around ">
         {page === "main" && (
           <>
             <Controls
-              status={status}
-              handleConfig={handleConfig}
-              handleReports={handleReports}
-              handleStatus={handleStatus}
+              {...{ status, handleConfig, handleReports, handleStatus }}
             />
-            <GPS status={status} />
+            <GPS {...{ status }} />
           </>
         )}
         {page === "config" && (
           <Config
-            resolution={resolution}
-            config={config}
-            setConfig={setConfig}
-            handleBack={handleBack}
-            lines={lines}
-            setLines={setLines}
+            {...{ resolution, config, setConfig, handleBack, lines, setLines }}
           />
         )}
         {page === "reports" && (
@@ -81,7 +77,8 @@ function App() {
           </>
         )}
       </div>
-      <Cam resolution={resolution} status={status} lines={lines} />
+
+      <Cam {...{ resolution, status, lines, page, config }} />
       <Theme />
     </div>
   );
