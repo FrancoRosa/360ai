@@ -7,19 +7,28 @@ import Webcam from "react-webcam";
 import { drawRect } from "../js/rectangles";
 import Lines from "./Lines";
 import beep from "../js/beep";
+import { checkIntersections } from "../js/helpers";
+import ROI from "./elements/ROI";
 
-const Cam = ({ resolution, status, lines, config, page }) => {
+const Cam = ({ resolution, lines, config, page }) => {
+  const { vt1, vt2, ht, vb1, vb2, hb } = lines;
+  const { width, height } = resolution;
+  const rois = [
+    [vt1, ht, vt2, height / 2],
+    [vb1, hb, vb2, height],
+  ];
   const [coco, setCoco] = useState(false);
   const [devices, setDevices] = useState([]);
   const [deviceId, setDeviceId] = useState();
-
+  const [status, setStatus] = useState([false, false]);
   const webcamRef = useRef();
   const canvasRef = useRef();
 
   const style = {
     position: "relative",
     zIndex: 0,
-    ...resolution,
+    width,
+    height,
   };
 
   const handleChange = (e) => {
@@ -51,17 +60,16 @@ const Cam = ({ resolution, status, lines, config, page }) => {
         canvasRef.current.height = videoHeight;
         if (config.detection) {
           const obj = await net.detect(video);
+
+          const intersections = checkIntersections(obj, rois);
+          setStatus(intersections);
+          if (intersections.some((i) => i) && config.beep) {
+            beep();
+          }
           if (obj.map((o) => o.class).some((e) => e === "person")) {
-            if (config.beep) {
-              beep();
-            }
             const ctx = canvasRef.current.getContext("2d");
             drawRect(obj, ctx);
           }
-        } else {
-          const obj = [];
-          const ctx = canvasRef.current.getContext("2d");
-          drawRect(obj, ctx);
         }
       }
     };
@@ -78,7 +86,7 @@ const Cam = ({ resolution, status, lines, config, page }) => {
     return () => {
       clearInterval(detectInterval);
     };
-  }, [coco, config]);
+  }, [coco, config, lines]);
 
   useEffect(() => {
     navigator.mediaDevices.enumerateDevices().then((res) => {
@@ -90,19 +98,6 @@ const Cam = ({ resolution, status, lines, config, page }) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const colorByStatus = (status) => {
-    switch (status) {
-      case "safe":
-        return "border-green-500";
-      case "warning":
-        return "border-yellow-500";
-      case "danger":
-        return "border-red-500";
-      default:
-        return "";
-    }
-  };
 
   return (
     <>
@@ -123,23 +118,20 @@ const Cam = ({ resolution, status, lines, config, page }) => {
           ))}
         </select>
       </div>
-      <div
-        className={`flex justify-center w-full border-4 border-solid ${colorByStatus(
-          status
-        )}`}
-      >
-        <div style={style}>
-          <Webcam
-            ref={webcamRef}
-            style={{ position: "absolute", top: 0 }}
-            videoConstraints={{
-              deviceId,
-              ...resolution,
-            }}
-          />
-          <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
-          {page === "config" && <Lines resolution={resolution} lines={lines} />}
-        </div>
+
+      <div style={style}>
+        <Webcam
+          ref={webcamRef}
+          style={{ position: "absolute", top: 0 }}
+          videoConstraints={{
+            deviceId,
+            ...resolution,
+          }}
+        />
+        <ROI resolution={resolution} top={true} warning={status[0]} />
+        <ROI resolution={resolution} top={false} warning={status[1]} />
+        <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
+        {page === "config" && <Lines resolution={resolution} lines={lines} />}
       </div>
     </>
   );

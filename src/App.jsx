@@ -12,7 +12,7 @@ function App() {
     width: 640,
     height: 360,
   };
-  const [status, setStatus] = useState("safe");
+  const [status, setStatus] = useState([false, false]);
   const [page, setPage] = useState("main"); //main, config, reports
   const [config, setConfig] = useLocal("config", {
     beep: true,
@@ -35,34 +35,14 @@ function App() {
   const handleBack = () => {
     setPage("main");
   };
-  const handleStatus = () => {
-    console.log(status);
-
-    switch (status) {
-      case "safe":
-        setStatus("warning");
-        break;
-      case "warning":
-        setStatus("danger");
-        break;
-      case "danger":
-        setStatus("safe");
-        break;
-
-      default:
-        setStatus("safe");
-        break;
-    }
-  };
 
   return (
     <div className="text-slate-900 bg-slate-400 dark:text-lime-400 dark:bg-slate-900 text-sm">
+      <p className="m-2 text-sm ">{JSON.stringify(status)}</p>
       <div className="flex justify-around ">
         {page === "main" && (
           <>
-            <Controls
-              {...{ status, handleConfig, handleReports, handleStatus }}
-            />
+            <Controls {...{ status, handleConfig, handleReports }} />
             <GPS {...{ status }} />
           </>
         )}
@@ -78,7 +58,7 @@ function App() {
         )}
       </div>
 
-      <Cam {...{ resolution, status, lines, page, config }} />
+      <Cam {...{ resolution, setStatus, lines, page, config }} />
       <Theme />
     </div>
   );

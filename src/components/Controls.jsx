@@ -1,11 +1,8 @@
 import Button from "./elements/Button";
 
-const Controls = ({ status, handleConfig, handleReports, handleStatus }) => {
+const Controls = ({ handleConfig, handleReports }) => {
   return (
-    <div className="flex items-center">
-      <p onClick={handleStatus} className="m-2 capitalize">
-        {status}
-      </p>
+    <div className="flex gap-2 items-center">
       <Button onClick={handleReports} label={"Reports"} />
       <Button onClick={handleConfig} label={"Config"} />
     </div>
