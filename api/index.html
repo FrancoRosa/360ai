@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPS Data Stream</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #444;
+    }
+    #gps-data {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      margin: 20px auto;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <h1>Real-Time GPS Data</h1>
+  <div id="gps-data">
+    <pre>Waiting for data...</pre>
+  </div>
+
+  <!-- Include socket.io client library -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    // Connect to the WebSocket server
+    const socket = io('http://192.168.1.10:8080');
+
+    // Listen for 'gpsData' events
+    socket.on('gpsData', (data) => {
+      // Update the HTML with the new GPS data
+      const gpsDataElement = document.getElementById('gps-data');
+      gpsDataElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    });
+
+    // Handle connection errors
+    socket.on('connect_error', (err) => {
+      console.error('Connection error:', err);
+      document.getElementById('gps-data').innerHTML = `<pre>Connection error: ${err.message}</pre>`;
+    });
+  </script>
+</body>
+</html>
