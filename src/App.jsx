@@ -7,8 +7,8 @@ import Navigation from "./components/Navigation";
 import { io } from "socket.io-client";
 function App() {
   const resolution = {
-    width: 640,
-    height: 360,
+    width: 1280,
+    height: 720,
   };
   const [page, setPage] = useState("main"); //main, config, reports
   const [config, setConfig] = useLocal("config", {
