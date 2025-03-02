@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Speed Stream</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  </head>
+  <body>
+    <input type="range" id="speedRange" min="0" max="10" step="0.1" />
+    <span id="speedValue">0</span> km/h
+    <br />
+    <input type="checkbox" id="personCheckBox" />
+    <span>Person found:</span>
+    <span id="personValue">No</span>
+
+    <script>
+      const socket = io("http://localhost:8080");
+      const speedRange = document.getElementById("speedRange");
+      const speedValue = document.getElementById("speedValue");
+      const personCheckBox = document.getElementById("personCheckBox");
+      const personValue = document.getElementById("personValue");
+      let speed = 0;
+      let person = false;
+
+      speedRange.addEventListener("input", () => {
+        speed = parseFloat(speedRange.value);
+        speedValue.textContent = speed;
+      });
+
+      personCheckBox.addEventListener("change", () => {
+        person = personCheckBox.checked;
+        personValue.innerHTML = person ? "Yes" : "No";
+      });
+
+      setInterval(() => {
+        socket.emit("uiData", { speed, person });
+      }, 1000);
+
+      socket.on("gpsData", (data) => {
+        console.log("Received GPS Data:", data);
+      });
+    </script>
+  </body>
+</html>
