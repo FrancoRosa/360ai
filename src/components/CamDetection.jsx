@@ -11,7 +11,7 @@ import beep from "../js/beep";
 import { checkIntersections } from "../js/helpers";
 import ROI from "./elements/ROI";
 
-const Cam = ({ resolution, lines, config, page }) => {
+const Cam = ({ resolution, lines, config, page, setPerson }) => {
   const { vt1, vt2, ht, vb1, vb2, hb } = lines;
   const { width, height } = resolution;
   const rois = [
@@ -64,6 +64,7 @@ const Cam = ({ resolution, lines, config, page }) => {
 
           const intersections = checkIntersections(obj, rois);
           setStatus(intersections);
+          setPerson(intersections[0] || intersections[1]);
           if (intersections.some((i) => i) && config.beep) {
             beep();
           }
@@ -117,14 +118,14 @@ const Cam = ({ resolution, lines, config, page }) => {
         </select>
 
         <div style={style}>
-          <Webcam
+          {/* <Webcam
             ref={webcamRef}
             style={{ position: "absolute", top: 0 }}
             videoConstraints={{
               deviceId,
               ...resolution,
             }}
-          />
+          /> */}
           <ROI resolution={resolution} top={true} warning={status[0]} />
           <ROI resolution={resolution} top={false} warning={status[1]} />
           <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
