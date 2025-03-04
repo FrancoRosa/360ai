@@ -22,6 +22,11 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
   const [devices, setDevices] = useState([]);
   const [deviceId, setDeviceId] = useState();
   const [status, setStatus] = useState([false, false]);
+  console.log();
+  const [wSize, setWSize] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
   const webcamRef = useRef();
   const canvasRef = useRef();
 
@@ -92,6 +97,11 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
   }, [coco, config, lines]);
 
   useEffect(() => {
+    const updateWSize = () => {
+      setWSize({ height: window.innerHeight, width: window.innerWidth });
+    };
+    window.addEventListener("resize", updateWSize);
+
     navigator.mediaDevices.enumerateDevices().then((res) => {
       const webcams = res.filter(({ kind }) => kind === "videoinput");
       setDevices(webcams);
@@ -99,11 +109,20 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
         setDeviceId(webcams[0].deviceId);
       }
     });
+    return () => window.removeEventListener("resize", updateWSize);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="scale-125">
+    <div
+      style={{
+        scale: Math.min(
+          wSize.width / resolution.width,
+          wSize.height / resolution.height
+        ),
+      }}
+    >
       <div style={style}>
         <Webcam
           ref={webcamRef}
