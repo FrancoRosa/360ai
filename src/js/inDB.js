@@ -1,4 +1,4 @@
-const key = "active";
+const key = "events";
 
 const getEvents = () => JSON.parse(window.localStorage.getItem(key)) || {};
 const saveEvents = (events) =>
@@ -14,6 +14,5 @@ export const addEvent = ({ date, start, end, speeds, detections }) => {
 };
 export const getDayEvents = (date) => {
   const events = getEvents();
-  console.log({ events });
-  return events[date];
+  return events[date] || [];
 };

@@ -7,7 +7,8 @@ import Navigation from "./components/Navigation";
 import { io } from "socket.io-client";
 import Button from "./components/elements/Button";
 import { addEvent, getDayEvents } from "./js/inDB";
-import ZoomableTimeline from "./components/ZoomableTimeLine";
+// import Timeline from "./components/Timeline";
+import SpeedChart from "./components/SpeedChart";
 function App() {
   const resolution = {
     // width: 1280,
@@ -39,79 +40,6 @@ function App() {
   const minCount = 5;
   let speeds = [];
   let detections = [];
-  const data = [
-    {
-      start: "22:34:28",
-      end: "22:34:50",
-      speeds: [
-        2.3, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 1, 1, 5.3, 5.3, 5.3, 5.3, 5.3,
-        5.3, 5.3, 0.4, 0, 0, 0, 0,
-      ],
-      detections: [
-        false,
-        false,
-        false,
-        true,
-        true,
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-      ],
-    },
-    {
-      start: "22:35:57",
-      end: "22:36:26",
-      speeds: [
-        6.2, 6.2, 6.2, 6.2, 7.1, 7.1, 7.1, 7.1, 7.1, 7.1, 7.1, 7.1, 7.1, 7.1,
-        7.1, 7.1, 7.1, 7.1, 7.1, 7.1, 7.1, 7.1, 7.1, 7.1, 0, 0, 0, 0, 0,
-      ],
-      detections: [
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        true,
-        true,
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-      ],
-    },
-  ];
 
   useEffect(() => {
     const socket = io("http://localhost:8080");
@@ -157,7 +85,7 @@ function App() {
   }, []);
 
   return (
-    <div className=" h-screen text-slate-900 bg-slate-400 dark:text-lime-400 dark:bg-slate-900 text-sm flex flex-col justify-around items-center">
+    <div className=" h-vh text-slate-900 bg-slate-400 dark:text-lime-400 dark:bg-slate-900 text-sm flex flex-col justify-around items-center">
       <div className="flex justify-around">
         {page === "main" && (
           <>
@@ -172,7 +100,8 @@ function App() {
       {page !== "reports" && (
         <Cam {...{ resolution, lines, page, config, setPerson }} />
       )}
-      <ZoomableTimeline data={data} />
+      {/* <Timeline data={data} /> */}
+      <SpeedChart />
       <Navigation {...{ page, setPage }} />
       <div className="flex flex-around gap-4">
         <Button
