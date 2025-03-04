@@ -11,7 +11,7 @@ import beep from "../js/beep";
 import { checkIntersections } from "../js/helpers";
 import ROI from "./elements/ROI";
 
-const Cam = ({ resolution, lines, config, page, setPerson }) => {
+const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
   const { vt1, vt2, ht, vb1, vb2, hb } = lines;
   const { width, height } = resolution;
   const rois = [
@@ -103,12 +103,30 @@ const Cam = ({ resolution, lines, config, page, setPerson }) => {
   }, []);
 
   return (
-    <>
-      <div className="text-center mt-4 ">
+    <div className="scale-125">
+      <div style={style}>
+        <Webcam
+          ref={webcamRef}
+          style={{ position: "absolute", top: 0 }}
+          videoConstraints={{
+            deviceId,
+            ...resolution,
+          }}
+        />
+        <ROI resolution={resolution} top={true} warning={status[0]} />
+        <ROI resolution={resolution} top={false} warning={status[1]} />
+        <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
+        {page === "config" && <Lines resolution={resolution} lines={lines} />}
+        <div className="text-center text-slate-300 dark:text-lime-300  absolute  right-2 [text-shadow:3px_3px_5px_black]">
+          <h3 className="m-0 text-3xl font-bold">
+            {gps.speed?.toFixed(1) || "0.0"}
+          </h3>
+          <p className="mt-[-0.25em] ">mph</p>
+        </div>
         <select
           onChange={handleChange}
           value={deviceId}
-          className="w-50 border-slite-600 border-solid border-2 rounded-md m-2"
+          className="text-slate-300 dark:text-lime-300 absolute w-50 border-slite-600 border-solid border-2 rounded-md top-1 left-1 [text-shadow:3px_3px_5px_black]"
         >
           {devices.map((d, i) => (
             <option key={i} value={d.deviceId}>
@@ -116,23 +134,8 @@ const Cam = ({ resolution, lines, config, page, setPerson }) => {
             </option>
           ))}
         </select>
-
-        <div style={style}>
-          <Webcam
-            ref={webcamRef}
-            style={{ position: "absolute", top: 0 }}
-            videoConstraints={{
-              deviceId,
-              ...resolution,
-            }}
-          />
-          <ROI resolution={resolution} top={true} warning={status[0]} />
-          <ROI resolution={resolution} top={false} warning={status[1]} />
-          <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
-          {page === "config" && <Lines resolution={resolution} lines={lines} />}
-        </div>
       </div>
-    </>
+    </div>
   );
 };
 

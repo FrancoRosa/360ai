@@ -1,6 +1,8 @@
+import { ArrowBigLeft, CogIcon, FileBarChart2Icon } from "lucide-react";
 import Button from "./elements/Button";
 import Theme from "./Theme";
 import PropTypes from "prop-types";
+import ButtonIcon from "./elements/ButtonIcon";
 
 const Navigation = ({ page, setPage }) => {
   return (
@@ -8,11 +10,17 @@ const Navigation = ({ page, setPage }) => {
       <div className="flex justify-around">
         {page === "main" ? (
           <div className="flex gap-1">
-            <Button onClick={() => setPage("reports")} label={"Reports"} />
-            <Button onClick={() => setPage("config")} label={"Config"} />
+            <ButtonIcon onClick={() => setPage("reports")}>
+              <FileBarChart2Icon />
+            </ButtonIcon>
+            <ButtonIcon onClick={() => setPage("config")}>
+              <CogIcon />
+            </ButtonIcon>
           </div>
         ) : (
-          <Button onClick={() => setPage("main")} label="Return" />
+          <ButtonIcon onClick={() => setPage("main")}>
+            <ArrowBigLeft />
+          </ButtonIcon>
         )}
       </div>
       <Theme />

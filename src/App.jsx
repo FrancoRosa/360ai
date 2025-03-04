@@ -85,33 +85,29 @@ function App() {
   }, []);
 
   return (
-    <div className=" h-vh text-slate-900 bg-slate-400 dark:text-lime-400 dark:bg-slate-900 text-sm flex flex-col justify-around items-center">
+    <div className=" h-screen text-slate-900 bg-slate-400 dark:text-lime-400 dark:bg-slate-900 text-sm flex flex-col justify-around items-center">
       <div className="flex justify-around">
-        {page === "main" && (
-          <>
-            <GPS {...{ gps }} />
-          </>
-        )}
         {page === "config" && (
           <Config {...{ resolution, config, setConfig, lines, setLines }} />
         )}
       </div>
 
-      {page !== "reports" && (
-        <Cam {...{ resolution, lines, page, config, setPerson }} />
-      )}
-      {/* <Timeline data={data} /> */}
-      <SpeedChart />
-      <Navigation {...{ page, setPage }} />
-      <div className="flex flex-around gap-4">
-        <Button
-          label="Read"
-          onClick={() => {
-            const date = new Date().toLocaleDateString("sv");
-            console.log(getDayEvents(date));
+      {page == "reports" ? (
+        <SpeedChart />
+      ) : (
+        <Cam
+          {...{
+            resolution,
+            lines,
+            page,
+            config,
+            setPerson,
+            gps,
           }}
         />
-      </div>
+      )}
+      {/* <Timeline data={data} /> */}
+      <Navigation {...{ page, setPage }} />
     </div>
   );
 }
