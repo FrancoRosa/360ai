@@ -18,13 +18,14 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
     [vt1, ht, vt2, height / 2],
     [vb1, hb, vb2, height],
   ];
+  const offset = 60;
   const [coco, setCoco] = useState(false);
   const [devices, setDevices] = useState([]);
   const [deviceId, setDeviceId] = useState();
   const [status, setStatus] = useState([false, false]);
-  console.log();
+
   const [wSize, setWSize] = useState({
-    height: window.innerHeight,
+    height: window.innerHeight - offset,
     width: window.innerWidth,
   });
   const webcamRef = useRef();
@@ -98,7 +99,10 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
 
   useEffect(() => {
     const updateWSize = () => {
-      setWSize({ height: window.innerHeight, width: window.innerWidth });
+      setWSize({
+        height: window.innerHeight - offset,
+        width: window.innerWidth,
+      });
     };
     window.addEventListener("resize", updateWSize);
 
@@ -117,10 +121,14 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
   return (
     <div
       style={{
-        scale: Math.min(
-          wSize.width / resolution.width,
-          wSize.height / resolution.height
-        ),
+        scale:
+          page == "main"
+            ? Math.min(
+                wSize.width / resolution.width,
+                wSize.height / resolution.height
+              )
+            : 1,
+        marginTop: offset,
       }}
     >
       <div style={style}>
