@@ -43,44 +43,60 @@ function App() {
 
   useEffect(() => {
     const socket = io("http://localhost:8080");
+    const handleData = (data) => {
+      const { speed, person, latitude, longitude } = data;
+      console.log({ latitude, longitude });
+      if (speed !== null) {
+        setGPS(data);
+
+        if (speed >= minSpeed) {
+          counter = 0;
+          if (!running) {
+            start = new Date();
+            speeds = [];
+            detections = [];
+            running = true;
+            console.log("... start");
+          }
+        }
+
+        if (speed < minSpeed && running) {
+          counter++;
+          if (counter > minCount) {
+            running = false;
+            const end = new Date();
+            console.log("... end");
+            addEvent({
+              date: start.toLocaleDateString("sv"),
+              start: start.toLocaleTimeString("sv"),
+              end: end.toLocaleTimeString("sv"),
+              speeds,
+              detections,
+            });
+          }
+        }
+
+        if (running) {
+          speeds.push(speed);
+          detections.push(person);
+        }
+      }
+    };
+
     socket.on("gpsData", (data) => {
-      const { speed, person } = data;
-      setGPS(data);
-      if (speed >= minSpeed) {
-        counter = 0;
-        if (!running) {
-          start = new Date();
-          speeds = [];
-          detections = [];
-          running = true;
-          console.log("... start");
-        }
-      }
+      handleData(data);
+    });
 
-      if (speed < minSpeed && running) {
-        counter++;
-        if (counter > minCount) {
-          running = false;
-          const end = new Date();
-          console.log("... end");
-          addEvent({
-            date: start.toLocaleDateString("sv"),
-            start: start.toLocaleTimeString("sv"),
-            end: end.toLocaleTimeString("sv"),
-            speeds,
-            detections,
-          });
-        }
-      }
-
-      if (running) {
-        speeds.push(speed);
-        detections.push(person);
-      }
+    socket.on("connect_error", (err) => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        handleData(position.coords);
+      });
     });
 
     return () => {
       socket.off("gpsData");
+      socket.off("connect_error");
+      socket.disconnect();
     };
   }, []);
 
