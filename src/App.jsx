@@ -11,10 +11,10 @@ import { addEvent, getDayEvents } from "./js/inDB";
 import SpeedChart from "./components/SpeedChart";
 function App() {
   const resolution = {
-    // width: 1280,
-    // height: 720,
-    width: 640,
-    height: 480,
+    width: 1280,
+    height: 720,
+    // width: 640,
+    // height: 480,
   };
   const [page, setPage] = useState("main"); //main, config, reports
   const [config, setConfig] = useLocal("config", {

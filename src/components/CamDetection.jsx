@@ -127,13 +127,7 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
       : 1;
 
   return (
-    <div
-      style={{
-        scale,
-        position: "absolute",
-        top: scale > 1.1 ? scale * scale * 61 : scale * scale * 70,
-      }}
-    >
+    <div>
       <div style={style}>
         <Webcam
           ref={webcamRef}
