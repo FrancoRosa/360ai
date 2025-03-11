@@ -6,7 +6,7 @@ import ButtonIcon from "./elements/ButtonIcon";
 
 const Navigation = ({ page, setPage }) => {
   return (
-    <div className="flex justify-between w-full py-2">
+    <div className="flex justify-between w-full absolute top-0">
       <div className="flex justify-around">
         {page === "main" ? (
           <div className="flex gap-1">

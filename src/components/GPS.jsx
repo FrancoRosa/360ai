@@ -13,7 +13,7 @@ const GPS = ({ gps }) => {
     <div className="flex gap-4">
       <Indicator label="Altitude" value={altitude} unit="ft ASL" />
       <Indicator label="Bearing" value={bearing} unit="degrees" />
-      <Indicator label="Speed" value={speed} unit="mph" />
+      <Indicator label="Speed" value={speed * 2.23} unit="mph" />
     </div>
   );
 };

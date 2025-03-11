@@ -101,12 +101,12 @@ function App() {
   }, []);
 
   return (
-    <div className=" h-screen text-slate-900 bg-slate-400 dark:text-lime-400 dark:bg-slate-900 text-sm flex flex-col justify-around items-center">
-      <div className="flex justify-around">
-        {page === "config" && (
-          <Config {...{ resolution, config, setConfig, lines, setLines }} />
-        )}
-      </div>
+    <div className=" text-slate-900 bg-slate-400 dark:text-lime-400 dark:bg-slate-900 text-sm flex flex-col  items-center h-screen">
+      <Navigation {...{ page, setPage }} />
+
+      {page === "config" && (
+        <Config {...{ resolution, config, setConfig, lines, setLines }} />
+      )}
 
       {page == "reports" ? (
         <SpeedChart />
@@ -123,7 +123,6 @@ function App() {
         />
       )}
       {/* <Timeline data={data} /> */}
-      <Navigation {...{ page, setPage }} />
     </div>
   );
 }

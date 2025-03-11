@@ -18,7 +18,7 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
     [vt1, ht, vt2, height / 2],
     [vb1, hb, vb2, height],
   ];
-  const offset = 60;
+  const offset = 0;
   const [coco, setCoco] = useState(false);
   const [devices, setDevices] = useState([]);
   const [deviceId, setDeviceId] = useState();
@@ -118,17 +118,20 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const scale =
+    page == "main"
+      ? Math.min(
+          wSize.width / resolution.width,
+          (wSize.height - 10) / resolution.height
+        )
+      : 1;
+
   return (
     <div
       style={{
-        scale:
-          page == "main"
-            ? Math.min(
-                wSize.width / resolution.width,
-                wSize.height / resolution.height
-              )
-            : 1,
-        marginTop: offset,
+        scale,
+        position: "absolute",
+        top: scale > 1.1 ? scale * scale * 61 : scale * scale * 70,
       }}
     >
       <div style={style}>
@@ -145,10 +148,13 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
         <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
         {page === "config" && <Lines resolution={resolution} lines={lines} />}
         <div className="text-center text-slate-300 dark:text-lime-300  absolute  right-2 [text-shadow:3px_3px_5px_black]">
-          <h3 className="m-0 text-3xl font-bold">
+          <h3 className="text-3xl font-bold">
             {gps.speed?.toFixed(1) || "0.0"}
           </h3>
-          <p className="mt-[-0.25em] ">mph</p>
+          <p className="mt-[-0.75em] ">mph</p>
+          <p className="mt-[1em] ">{scale.toFixed(1)}</p>
+          <p className="mt-[2em] ">{wSize.width}</p>
+          <p className="mt-[3em] ">{wSize.height}</p>
         </div>
         <select
           onChange={handleChange}

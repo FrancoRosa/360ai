@@ -30,7 +30,7 @@ const Theme = () => {
   }, [theme]);
 
   return (
-    <div className="flex w-full justify-end gap-1 p-2">
+    <div className="flex w-full justify-end gap-1 pt-2">
       <ButtonIcon onClick={handleLight}>
         <SunIcon />
       </ButtonIcon>
