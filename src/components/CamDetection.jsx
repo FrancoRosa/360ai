@@ -118,25 +118,17 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const scale =
-    page == "main"
-      ? Math.min(
-          wSize.width / resolution.width,
-          (wSize.height - 10) / resolution.height
-        )
-      : 1;
-
   return (
     <div>
       <div style={style}>
-        <Webcam
+        {/* <Webcam
           ref={webcamRef}
           style={{ position: "absolute", top: 0 }}
           videoConstraints={{
             deviceId,
             ...resolution,
           }}
-        />
+        /> */}
         <ROI resolution={resolution} top={true} warning={status[0]} />
         <ROI resolution={resolution} top={false} warning={status[1]} />
         <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
@@ -146,9 +138,6 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
             {gps.speed?.toFixed(1) || "0.0"}
           </h3>
           <p className="mt-[-0.75em] ">mph</p>
-          <p className="mt-[1em] ">{scale.toFixed(1)}</p>
-          <p className="mt-[2em] ">{wSize.width}</p>
-          <p className="mt-[3em] ">{wSize.height}</p>
         </div>
         <select
           onChange={handleChange}

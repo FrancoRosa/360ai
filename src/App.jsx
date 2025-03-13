@@ -40,12 +40,13 @@ function App() {
   const minCount = 5;
   let speeds = [];
   let detections = [];
+  let webLocation = false;
+  let locationInterval;
 
   useEffect(() => {
     const socket = io("http://localhost:8080");
     const handleData = (data) => {
       const { speed, person, latitude, longitude } = data;
-      console.log({ latitude, longitude });
       if (speed !== null) {
         setGPS(data);
 
@@ -88,15 +89,22 @@ function App() {
     });
 
     socket.on("connect_error", (err) => {
-      navigator.geolocation.getCurrentPosition((position) => {
-        handleData(position.coords);
-      });
+      if (webLocation == false) {
+        locationInterval = setInterval(() => {
+          navigator.geolocation.getCurrentPosition((position) => {
+            handleData(position.coords);
+          });
+          console.log("web location");
+        }, 1000);
+        webLocation = true;
+      }
     });
 
     return () => {
       socket.off("gpsData");
       socket.off("connect_error");
       socket.disconnect();
+      clearInterval(locationInterval);
     };
   }, []);
 

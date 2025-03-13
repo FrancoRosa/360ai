@@ -1,5 +1,4 @@
 import { ArrowBigLeft, CogIcon, FileBarChart2Icon } from "lucide-react";
-import Button from "./elements/Button";
 import Theme from "./Theme";
 import PropTypes from "prop-types";
 import ButtonIcon from "./elements/ButtonIcon";
