@@ -132,8 +132,8 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
             ...resolution,
           }}
         /> */}
-        <ROI resolution={resolution} top={true} warning={status[0]} />
-        <ROI resolution={resolution} top={false} warning={status[1]} />
+        {/* <ROI resolution={resolution} top={true} warning={status[0]} /> */}
+        {/* <ROI resolution={resolution} top={false} warning={status[1]} /> */}
         <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
         {page === "config" && <Lines resolution={resolution} lines={lines} />}
         <SpeedValue gps={gps} />
