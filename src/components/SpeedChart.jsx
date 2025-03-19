@@ -23,7 +23,7 @@ const addSeconds = (timeString, secondsToAdd) => {
   return `${updatedHours}:${updatedMinutes}:${updatedSeconds}`;
 };
 
-const options = {
+const initOptions = {
   responsive: true,
   maintainAspectRatio: false,
   scales: {
@@ -67,6 +67,31 @@ const options = {
           scaleMode: "x",
         },
         mode: "x",
+        onZoom: ({ chart }) => {
+          console.log(chart);
+          const { min, max } = chart.scales.x;
+          const diff = max - min;
+
+          if (diff <= 1000 * 60 * 60) {
+            //chart.scales.x._unit = "minute"; // Show minutes if zoomed in under 1 hour
+            const tempOptions = { ...options };
+            tempOptions.scales.x.time.unit = "minute";
+            setOptions(tempOptions);
+            console.log("minute");
+          } else if (diff <= 1000 * 60 * 5) {
+            console.log("second");
+            const tempOptions = { ...options };
+            tempOptions.scales.x.time.unit = "seconds";
+            setOptions(tempOptions);
+            //chart.scales.x._unit = "second"; // Show seconds if zoomed in under 5 minutes
+          } else {
+            console.log("hour");
+            const tempOptions = { ...options };
+            tempOptions.scales.x.time.unit = "hours";
+            setOptions(tempOptions);
+            //chart.scales.x._unit = "hour"; // Default to hour
+          }
+        },
       },
     },
   },
@@ -77,6 +102,8 @@ const SpeedChart = () => {
     labels: [], // Convert time to Date objects
     datasets: [],
   });
+
+  const [options, setOptions] = useState(initOptions);
 
   useEffect(() => {
     let time = [];

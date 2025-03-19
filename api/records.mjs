@@ -3,8 +3,13 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { getScreenResolution } from "./helpers.mjs";
 import Fastify from "fastify";
+import fastifyCors from "@fastify/cors";
 
 const fastify = Fastify();
+fastify.register(fastifyCors, {
+  origin: "*", // Allow all origins, modify as needed for security
+});
+
 let timeoutRef = null; // Timeout for auto-stop
 let isRecording = false;
 
@@ -67,9 +72,13 @@ export function keepRecording() {
  * Stops the recording immediately.
  */
 export function stopRecording() {
-  execSync("pkill -INT ffmpeg");
-  isRecording = false;
-  console.log("Recording manually stopped.");
+  try {
+    execSync("pkill -INT ffmpeg");
+    isRecording = false;
+    console.log("Recording manually stopped.");
+  } catch (error) {
+    console.log("Thre was an error killing the process");
+  }
 }
 
 // Initialize Fastify

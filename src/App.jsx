@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import Cam from "./components/CamDetection";
-import GPS from "./components/GPS";
 import Config from "./components/Config";
 import useLocal from "./js/storage";
 import Navigation from "./components/Navigation";
 import { io } from "socket.io-client";
-import Button from "./components/elements/Button";
-import { addEvent, getDayEvents } from "./js/inDB";
-// import Timeline from "./components/Timeline";
+import { addEvent } from "./js/inDB";
 import SpeedChart from "./components/SpeedChart";
+import { Disc } from "lucide-react";
+import {
+  generateFilename,
+  keep,
+  stop,
+  start as startRecord,
+} from "./js/record";
 function App() {
   const resolution = {
     width: 1280,
@@ -30,7 +34,7 @@ function App() {
     vb2: (3 * resolution.width) / 4,
     hb: (3 * resolution.height) / 4,
   });
-
+  const [recording, setRecording] = useState(false);
   const [person, setPerson] = useState(false);
   let start = new Date();
   let counter = 0;
@@ -51,6 +55,7 @@ function App() {
         setGPS(data);
 
         if (speed >= minSpeed) {
+          keep();
           counter = 0;
           if (!running) {
             start = new Date();
@@ -58,6 +63,8 @@ function App() {
             detections = [];
             running = true;
             console.log("... start");
+            setRecording(true);
+            startRecord(generateFilename());
           }
         }
 
@@ -67,6 +74,8 @@ function App() {
             running = false;
             const end = new Date();
             console.log("... end");
+            setRecording(false);
+            stop();
             addEvent({
               date: start.toLocaleDateString("sv"),
               start: start.toLocaleTimeString("sv"),
@@ -119,18 +128,22 @@ function App() {
       {page == "reports" ? (
         <SpeedChart />
       ) : (
-        <Cam
-          {...{
-            resolution,
-            lines,
-            page,
-            config,
-            setPerson,
-            gps,
-          }}
-        />
+        <>
+          <Cam
+            {...{
+              resolution,
+              lines,
+              page,
+              config,
+              setPerson,
+              gps,
+            }}
+          />
+          {recording && (
+            <Disc className="absolute bottom-0 w-3  p-0 m-0 text-red-600" />
+          )}
+        </>
       )}
-      {/* <Timeline data={data} /> */}
     </div>
   );
 }
