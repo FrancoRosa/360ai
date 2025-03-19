@@ -137,8 +137,8 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
             ...resolution,
           }}
         />
-        <ROI resolution={resolution} top={true} warning={status[0]} />
-        <ROI resolution={resolution} top={false} warning={status[1]} />
+        {/* <ROI resolution={resolution} top={true} warning={status[0]} /> */}
+        {/* <ROI resolution={resolution} top={false} warning={status[1]} /> */}
         <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
         {page === "config" && <Lines resolution={resolution} lines={lines} />}
         <div className="text-center text-slate-300 dark:text-lime-300  absolute  right-2 [text-shadow:3px_3px_5px_black]">
@@ -146,9 +146,6 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
             {gps.speed?.toFixed(1) || "0.0"}
           </h3>
           <p className="mt-[-0.75em] ">mph</p>
-          <p className="mt-[1em] ">{scale.toFixed(1)}</p>
-          <p className="mt-[2em] ">{wSize.width}</p>
-          <p className="mt-[3em] ">{wSize.height}</p>
         </div>
         <select
           onChange={handleChange}
