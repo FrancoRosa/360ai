@@ -11,7 +11,10 @@ import { drawRect } from "../js/rectangles";
 import Lines from "./Lines";
 import beep from "../js/beep";
 import { checkIntersections } from "../js/helpers";
-// import ROI from "./elements/ROI";
+import ROI from "./elements/ROI";
+import SpeedValue from "./SpeedValue";
+import CamSelector from "./CamSelector";
+import Clock from "./Clock";
 
 const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
   const { vt1, vt2, ht, vb1, vb2, hb } = lines;
@@ -120,14 +123,6 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const scale =
-    page == "main"
-      ? Math.min(
-          wSize.width / resolution.width,
-          (wSize.height - 10) / resolution.height
-        )
-      : 1;
-
   return (
     <div>
       <div style={style}>
@@ -143,23 +138,9 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
         {/* <ROI resolution={resolution} top={false} warning={status[1]} /> */}
         <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />
         {page === "config" && <Lines resolution={resolution} lines={lines} />}
-        <div className="text-center text-slate-300 dark:text-lime-300  absolute  right-2 [text-shadow:3px_3px_5px_black]">
-          <h3 className="text-3xl font-bold">
-            {gps.speed?.toFixed(1) || "0.0"}
-          </h3>
-          <p className="mt-[-0.75em] ">mph</p>
-        </div>
-        <select
-          onChange={handleChange}
-          value={deviceId}
-          className="text-slate-300 dark:text-lime-300 absolute w-50 border-slite-600 border-solid border-2 rounded-md top-1 left-1 [text-shadow:3px_3px_5px_black]"
-        >
-          {devices.map((d, i) => (
-            <option key={i} value={d.deviceId}>
-              {`${i + 1}-${d.label.split("(")[0]}`}
-            </option>
-          ))}
-        </select>
+        <SpeedValue gps={gps} />
+        <CamSelector {...{ devices, deviceId, handleChange }} />
+        <Clock />
       </div>
     </div>
   );

@@ -37,6 +37,14 @@
         socket.emit("uiData", { speed, person });
       }, 1000);
 
+      setInterval(() => {
+        const diff = Math.floor(10 * Math.random() - 5);
+        speed = speed + diff;
+        speed = speed < 0 ? 0 : speed;
+        speedRange.value = speed;
+        speedValue.innerHTML = speed.toString();
+      }, 1000);
+
       socket.on("gpsData", (data) => {
         console.log("Received GPS Data:", data);
       });
