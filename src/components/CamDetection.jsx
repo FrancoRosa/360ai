@@ -136,6 +136,7 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
     <div>
       <div style={style}>
         <Webcam
+          mirrored
           ref={webcamRef}
           style={{ position: "absolute", top: 0 }}
           videoConstraints={{

@@ -18,9 +18,10 @@ export const drawRect = (detections, ctx) => {
     // Draw rectangles and text
     ctx.beginPath();
     ctx.fillStyle = lime;
-    ctx.fillText(`${text} ${acc}%`, x + 5, y + 18);
+    ctx.fillText(`${text} ${acc}%`, 720 - x + 5, y + 18);
     ctx.lineWidth = 3;
-    ctx.rect(x, y, width, height);
+    // ctx.scale(-1, 1);
+    ctx.rect(720 - x, y, width, height);
     ctx.stroke();
   });
 };
