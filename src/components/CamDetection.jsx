@@ -50,10 +50,12 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
 
   useEffect(() => {
     cocossd
-      .load({
-        base: "lite_mobilenet_v2",
-        modelUrl: "/model.json",
-      })
+      .load
+      //   {
+      //   base: "lite_mobilenet_v2",
+      //   modelUrl: "/model.json",
+      // }
+      ()
       .then((res) => {
         console.log("... coco loaded");
         setCoco(res);
