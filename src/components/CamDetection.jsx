@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 
 // eslint-disable-next-line no-unused-vars
+import "@tensorflow/tfjs-backend-cpu";
+import "@tensorflow/tfjs-backend-webgl";
 import * as tf from "@tensorflow/tfjs";
 import * as cocossd from "@tensorflow-models/coco-ssd";
 import Webcam from "react-webcam";
@@ -9,7 +11,7 @@ import { drawRect } from "../js/rectangles";
 import Lines from "./Lines";
 import beep from "../js/beep";
 import { checkIntersections } from "../js/helpers";
-import ROI from "./elements/ROI";
+// import ROI from "./elements/ROI";
 
 const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
   const { vt1, vt2, ht, vb1, vb2, hb } = lines;
