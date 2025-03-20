@@ -6,6 +6,7 @@ import "@tensorflow/tfjs-backend-cpu";
 import "@tensorflow/tfjs-backend-webgl";
 import * as tf from "@tensorflow/tfjs";
 import * as cocossd from "@tensorflow-models/coco-ssd";
+// import * as cocossd from "@tensorflow-models/mobilenet";
 import Webcam from "react-webcam";
 import { drawRect } from "../js/rectangles";
 import Lines from "./Lines";
@@ -48,10 +49,15 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
   };
 
   useEffect(() => {
-    cocossd.load().then((res) => {
-      console.log("... coco loaded");
-      setCoco(res);
-    });
+    cocossd
+      .load({
+        base: "lite_mobilenet_v2",
+        modelUrl: "/model.json",
+      })
+      .then((res) => {
+        console.log("... coco loaded");
+        setCoco(res);
+      });
   }, []);
 
   useEffect(() => {
@@ -65,6 +71,7 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
           video,
           video: { videoWidth, videoHeight },
         } = webcamRef.current;
+
         webcamRef.current.video.width = videoWidth;
         webcamRef.current.video.height = videoHeight;
 
@@ -91,7 +98,7 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
     if (coco) {
       detectInterval = setInterval(() => {
         detect(coco);
-      }, 300);
+      }, 500);
     } else {
       clearInterval(detectInterval);
     }
