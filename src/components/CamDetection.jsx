@@ -16,6 +16,7 @@ import ROI from "./elements/ROI";
 import SpeedValue from "./SpeedValue";
 import CamSelector from "./CamSelector";
 import Clock from "./Clock";
+import useLocal from "../js/storage";
 
 const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
   const { vt1, vt2, ht, vb1, vb2, hb } = lines;
@@ -27,7 +28,7 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
   const offset = 0;
   const [coco, setCoco] = useState(false);
   const [devices, setDevices] = useState([]);
-  const [deviceId, setDeviceId] = useState();
+  const [deviceId, setDeviceId] = useLocal("deviceId", null);
   const [status, setStatus] = useState([false, false]);
 
   const [wSize, setWSize] = useState({

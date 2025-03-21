@@ -53,9 +53,6 @@ export const drawRect = (detections, ctx, config) => {
           ctx.lineWidth = 3;
           // ctx.scale(-1, 1);
           ctx.rect(x, y, width, height);
-
-
-
         } else {
           ctx.fillText(`${text}`, 1280 - x - width + 5, y + 18);
           ctx.lineWidth = 3;
