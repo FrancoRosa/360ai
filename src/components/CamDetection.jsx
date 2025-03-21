@@ -90,7 +90,7 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
           }
           if (obj.map((o) => o.class).some((e) => e === "person")) {
             const ctx = canvasRef.current.getContext("2d");
-            drawRect(obj, ctx);
+            drawRect(obj, ctx, config);
           }
         }
       }
@@ -100,7 +100,7 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
     if (coco) {
       detectInterval = setInterval(() => {
         detect(coco);
-      }, 500);
+      }, 350);
     } else {
       clearInterval(detectInterval);
     }
@@ -135,15 +135,46 @@ const Cam = ({ resolution, lines, config, page, setPerson, gps }) => {
   return (
     <div>
       <div style={style}>
-        <Webcam
-          mirrored
-          ref={webcamRef}
-          style={{ position: "absolute", top: 0 }}
-          videoConstraints={{
-            deviceId,
-            ...resolution,
-          }}
-        />
+        {config.camera == "single" ? (
+          <Webcam
+            mirrored={config.mirror}
+            ref={webcamRef}
+            style={{ position: "absolute", top: 0 }}
+            videoConstraints={{
+              deviceId,
+              ...resolution,
+            }}
+          />
+        ) : (
+          <>
+            <Webcam
+              mirrored={config.mirror}
+              ref={webcamRef}
+              style={{
+                position: "absolute",
+                top: 0,
+                clipPath: "inset(0 0 50% 0)",
+              }}
+              videoConstraints={{
+                deviceId,
+                ...resolution,
+              }}
+            />
+            <Webcam
+              mirrored={!config.mirror}
+              ref={webcamRef}
+              style={{
+                position: "absolute",
+                top: 0,
+                clipPath: "inset(50% 0 0 0)",
+              }}
+              videoConstraints={{
+                deviceId,
+                ...resolution,
+              }}
+            />
+          </>
+        )}
         {/* <ROI resolution={resolution} top={true} warning={status[0]} /> */}
         {/* <ROI resolution={resolution} top={false} warning={status[1]} /> */}
         <canvas ref={canvasRef} style={{ position: "absolute", top: 0 }} />

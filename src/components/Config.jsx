@@ -1,4 +1,5 @@
 import Select from "./elements/Select";
+import SelectOptions from "./elements/SelectOptions";
 import Slider from "./elements/Slider";
 import PropTypes from "prop-types";
 
@@ -21,7 +22,24 @@ const Config = ({ resolution, config, setConfig, lines, setLines }) => {
           }
         />
       </div>
-
+      <div className="flex flex-col items-center gap-1">
+        <SelectOptions
+          label="Camera: "
+          options={[
+            { value: "split", name: "Split" },
+            { value: "single", name: "Single" },
+          ]}
+          value={config.camera}
+          onChange={(e) => setConfig((c) => ({ ...c, camera: e.target.value }))}
+        />
+        <Select
+          label="Mirror:"
+          value={config.mirror}
+          onChange={(e) =>
+            setConfig((c) => ({ ...c, mirror: e.target.value === "true" }))
+          }
+        />
+      </div>
       <div className="flex flex-col items-center gap-1">
         <Slider
           label="x1:"
@@ -99,6 +117,8 @@ Config.propTypes = {
   config: PropTypes.shape({
     beep: PropTypes.bool.isRequired,
     detection: PropTypes.bool.isRequired,
+    mirror: PropTypes.bool.isRequired,
+    camera: PropTypes.string.isRequired,
   }).isRequired,
   setConfig: PropTypes.func.isRequired,
   lines: PropTypes.shape({

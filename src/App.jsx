@@ -24,6 +24,8 @@ function App() {
   const [config, setConfig] = useLocal("config", {
     beep: true,
     detection: true,
+    mirror: false,
+    camera: "single",
   });
   const [gps, setGPS] = useState({});
   const [lines, setLines] = useLocal("lines", {
